@@ -13,13 +13,13 @@ namespace FFXIVMoneyTracker
     {
         private Plugin plugin;
 
-        public Settings SettingsWindow { get; set; }
+        public MoneyLog MoneyLogWindow { get; set; }
 
         public PluginUI(Plugin plugin)
         {
             this.plugin = plugin;
 
-            SettingsWindow = new Settings(plugin, this);
+            MoneyLogWindow = new MoneyLog(plugin, this);
         }
 
         public void Dispose()
@@ -35,7 +35,7 @@ namespace FFXIVMoneyTracker
             // There are other ways to do this, but it is generally best to keep the number of
             // draw delegates as low as possible.
 
-            SettingsWindow.Draw();
+            MoneyLogWindow.Draw();
         }
     }
 }

@@ -9,6 +9,7 @@ using Dalamud.Plugin;
 using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVMoneyTracker.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -108,7 +109,16 @@ namespace FFXIVMoneyTracker
             {
                 Name = this.ClientState.LocalPlayer!.Name.TextValue,
                 World = this.ClientState.LocalPlayer!.HomeWorld.GameData.Name,
-                CurrentAmount = gil
+                CurrentAmount = gil,
+                Transactions = new List<MoneyTransaction>()
+                {
+                    new MoneyTransaction()
+                    {
+                        Change = gil,
+                        NewTotal = gil,
+                        TimeStamp = DateTime.Now
+                    }
+                }
             };
 
             this.Configuration.Characters.Add(CurrentCharacter);
@@ -143,6 +153,10 @@ namespace FFXIVMoneyTracker
 
         public void Dispose()
         {
+            this.PluginInterface.UiBuilder.Draw -= DrawUI;
+            this.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+            this.ChatGui.ChatMessage -= Chat_OnChatMessage;
+
             this.PluginUI.Dispose();
             this.CommandManager.RemoveHandler(commandName);
         }
@@ -151,7 +165,7 @@ namespace FFXIVMoneyTracker
         {
             // in response to the slash command, just display our main ui
             GetCurrentCharacter();
-            this.PluginUI.SettingsWindow.Visible = true;
+            this.PluginUI.MoneyLogWindow.Visible = true;
         }
 
         private void DrawUI()
@@ -162,7 +176,7 @@ namespace FFXIVMoneyTracker
         private void DrawConfigUI()
         {
             GetCurrentCharacter();
-            this.PluginUI.SettingsWindow.Visible = true;
+            this.PluginUI.MoneyLogWindow.Visible = true;
         }
 
         public void ExportToFile()

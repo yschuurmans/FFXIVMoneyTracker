@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace FFXIVMoneyTracker.Windows
 {
-    public class Settings : Window
+    public class MoneyLog : Window
     {
 
-        public Settings(Plugin plugin, PluginUI pluginUI) : base(plugin, pluginUI)
+        public MoneyLog(Plugin plugin, PluginUI pluginUI) : base(plugin, pluginUI)
         { 
         }
 
@@ -24,7 +24,7 @@ namespace FFXIVMoneyTracker.Windows
             }
 
             ImGui.SetNextWindowSize(new Vector2(232, 75), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("Price log", ref this.visible,
+            if (ImGui.Begin("Money log", ref this.visible,
                 ImGuiWindowFlags.AlwaysVerticalScrollbar))
             {
                 if(ImGui.Button("Export to CSV"))
