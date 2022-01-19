@@ -57,9 +57,7 @@ namespace FFXIVMoneyTracker
 
             // you might normally want to embed resources and load them from the manifest stream
             var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            var imagePath = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, "goat.png");
-            var goatImage = this.PluginInterface.UiBuilder.LoadImage(imagePath);
-            this.PluginUI = new PluginUI(this, goatImage);
+            this.PluginUI = new PluginUI(this);
 
             this.CommandManager.AddHandler(commandName, new CommandInfo(OnCommand)
             {

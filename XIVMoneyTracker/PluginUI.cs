@@ -15,7 +15,7 @@ namespace FFXIVMoneyTracker
 
         public Settings SettingsWindow { get; set; }
 
-        public PluginUI(Plugin plugin, ImGuiScene.TextureWrap goatImage)
+        public PluginUI(Plugin plugin)
         {
             this.plugin = plugin;
 
