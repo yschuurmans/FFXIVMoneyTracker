@@ -122,6 +122,7 @@ namespace FFXIVMoneyTracker
             };
 
             this.Configuration.Characters.Add(CurrentCharacter);
+            Configuration.Save();
 
             return CurrentCharacter;
         }
