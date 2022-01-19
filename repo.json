@@ -10,9 +10,9 @@
 		"IsHide": false,
 		"IsTestingExclusive": false,
 		"RepoUrl": "https://github.com/yschuurmans/FFXIVMoneyTracker",
-		"DownloadLinkInstall": "https://github.com/yschuurmans/FFXIVMoneyTracker/raw/main/latest.zip",
-		"DownloadLinkTesting": "https://github.com/yschuurmans/FFXIVMoneyTracker/raw/main/latest.zip",
-		"DownloadLinkUpdate": "https://github.com/yschuurmans/FFXIVMoneyTracker/raw/main/latest.zip",
+		"DownloadLinkInstall": "https://github.com/yschuurmans/FFXIVMoneyTracker/raw/master/latest.zip",
+		"DownloadLinkTesting": "https://github.com/yschuurmans/FFXIVMoneyTracker/raw/master/latest.zip",
+		"DownloadLinkUpdate": "https://github.com/yschuurmans/FFXIVMoneyTracker/raw/master/latest.zip",
 		"DownloadCount": 0,
 		"LastUpdated": "0",
 		"Tags": [
