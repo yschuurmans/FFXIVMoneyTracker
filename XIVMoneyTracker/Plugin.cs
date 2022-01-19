@@ -121,7 +121,6 @@ namespace FFXIVMoneyTracker
             if (type != XivChatType.SystemMessage && type != XivChatType.Echo) return;
             if (LastUpdate.AddSeconds(5) > DateTime.Now) return;
             LastUpdate = DateTime.Now;
-            ChatGui.Print("Updating Gil");
             UpdateGil();
         }
 
