@@ -102,7 +102,11 @@ namespace FFXIVMoneyTracker
             CurrentCharacter = this.Configuration.Characters
                                 .FirstOrDefault(x => x.Name == this.ClientState.LocalPlayer?.Name.TextValue);
 
-            if (CurrentCharacter != null) return CurrentCharacter;
+            if (CurrentCharacter != null)
+            {
+                Configuration.Save();
+                return CurrentCharacter;
+            }
 
             var gil = Inventory.GetGil();
             CurrentCharacter = new CharacterModel()
@@ -149,7 +153,6 @@ namespace FFXIVMoneyTracker
                 Change = currentGil-player.CurrentAmount
             });
             player.CurrentAmount = currentGil;
-            Configuration.Save();
         }
 
         public void Dispose()
