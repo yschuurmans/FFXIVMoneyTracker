@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors></Authors>
     <Company></Company>
-    <Version>0.0.1.3</Version>
+    <Version>0.0.2.0</Version>
     <Description>A sample plugin.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>
@@ -22,7 +22,7 @@
   <Target Name="PackagePlugin" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
     <DalamudPackager ProjectDir="$(ProjectDir)" OutputPath="$(OutputPath)" AssemblyName="XIVMoneyTracker" MakeZip="true" />
   </Target>
-  <Target Name="CopyDLLs" AfterTargets="PackagePlugin">
+  <Target Name="CopyDLLs" AfterTargets="PackagePlugin" Condition="'$(Configuration)' == 'Release'">
     <Copy SourceFiles="$(TargetDir)XIVMoneyTracker\latest.zip" DestinationFolder="$(SolutionDir)" />
   </Target>
 

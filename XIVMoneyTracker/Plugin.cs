@@ -24,6 +24,8 @@ namespace FFXIVMoneyTracker
 
         private const string commandName = "/mtrack";
 
+        public static Plugin Instance;
+
         public DalamudPluginInterface PluginInterface { get; init; }
         public CommandManager CommandManager { get; init; }
         public ChatGui ChatGui { get; init; }
@@ -44,6 +46,7 @@ namespace FFXIVMoneyTracker
         {
             FFXIVClientStructs.Resolver.Initialize();
 
+            Instance = this;
             this.PluginInterface = pluginInterface;
             this.CommandManager = commandManager;
             this.ChatGui = chatGui;
@@ -112,18 +115,16 @@ namespace FFXIVMoneyTracker
             CurrentCharacter = new CharacterModel()
             {
                 Name = this.ClientState.LocalPlayer!.Name.TextValue,
-                World = this.ClientState.LocalPlayer!.HomeWorld.GameData.Name,
-                CurrentAmount = gil,
-                Transactions = new List<MoneyTransaction>()
-                {
+                World = this.ClientState.LocalPlayer!.HomeWorld.GameData.Name.RawString,
+                CurrentAmount = gil
+            };
+            CurrentCharacter.AddTransaction(
                     new MoneyTransaction()
                     {
                         Change = gil,
                         NewTotal = gil,
                         TimeStamp = DateTime.Now
-                    }
-                }
-            };
+                    });
 
             this.Configuration.Characters.Add(CurrentCharacter);
             Configuration.Save();
@@ -133,7 +134,7 @@ namespace FFXIVMoneyTracker
 
         private void Chat_OnChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString message, ref bool isHandled)
         {
-            if (type != XivChatType.SystemMessage && type != XivChatType.Echo) return;
+            if (type != XivChatType.SystemMessage) return;
             if (LastUpdate.AddSeconds(5) > DateTime.Now) return;
             LastUpdate = DateTime.Now;
             UpdateGil();
@@ -146,13 +147,14 @@ namespace FFXIVMoneyTracker
             if (player == null || player?.CurrentAmount == currentGil)
                 return;
 
-            player!.Transactions.Add(new MoneyTransaction
+            player!.AddTransaction(new MoneyTransaction
             {
                 TimeStamp = DateTime.Now,
                 NewTotal = currentGil,
-                Change = currentGil-player.CurrentAmount
+                Change = currentGil - player.CurrentAmount
             });
             player.CurrentAmount = currentGil;
+            Configuration.Save();
         }
 
         public void Dispose()
@@ -168,7 +170,7 @@ namespace FFXIVMoneyTracker
         private void OnCommand(string command, string args)
         {
             // in response to the slash command, just display our main ui
-            GetCurrentCharacter();
+            GetCurrentCharacter()?.LoadAllTransactions();
             this.PluginUI.MoneyLogWindow.Visible = true;
         }
 
@@ -179,7 +181,8 @@ namespace FFXIVMoneyTracker
 
         private void DrawConfigUI()
         {
-            GetCurrentCharacter();
+            GetCurrentCharacter()?.LoadAllTransactions();
+
             this.PluginUI.MoneyLogWindow.Visible = true;
         }
 
@@ -193,8 +196,6 @@ namespace FFXIVMoneyTracker
             {
                 csv.AppendLine($"{transaction.TimeStamp},{transaction.NewTotal},{transaction.Change}");
             }
-
-
 
             try
             {
