@@ -11,9 +11,11 @@ namespace FFXIVMoneyTracker.Windows
 {
     public class MoneyLog : Window
     {
+        int clusterSize;
 
         public MoneyLog(Plugin plugin, PluginUI pluginUI) : base(plugin, pluginUI)
-        { 
+        {
+            clusterSize = plugin.Configuration.ClusterSizeInMinutes;
         }
 
         public override void Draw()
@@ -30,6 +32,12 @@ namespace FFXIVMoneyTracker.Windows
                 if(ImGui.Button("Export to CSV"))
                 {
                     this.plugin.ExportToFile();
+                }
+
+                if(ImGui.InputInt("Minute Group Size", ref clusterSize, 5, 30, ImGuiInputTextFlags.EnterReturnsTrue)) {
+                    plugin.Configuration.ClusterSizeInMinutes = clusterSize;
+                    plugin.Configuration.Save();
+                    plugin.GetCurrentCharacter()?.LoadAllTransactions();
                 }
 
                 if (plugin.CurrentCharacter != null)

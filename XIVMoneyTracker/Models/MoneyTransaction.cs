@@ -11,16 +11,16 @@ namespace FFXIVMoneyTracker.Models
     {
         public DateTime TimeStamp { get; set; }
         public long Change { get; set; }
-        public long NewTotal { get; set; }
+        public long Total { get; set; }
 
         public override string ToString()
         {
-            return $"{TimeStamp} \t {NewTotal.ToString("#,##0")} \t {Change.ToString("+ #,##0;- #,##0;0")}";  
+            return $"{TimeStamp} \t {Total.ToString("#,##0")} \t {Change.ToString("+ #,##0;- #,##0;0")}";  
         }
 
         public string ToFileLine()
         {
-            return $"{TimeStamp.ToString("dd/MM/yyyy HH:mm:ss")};{NewTotal};{Change}";
+            return $"{TimeStamp.ToString("dd/MM/yyyy HH:mm:ss")};{Total};{Change}";
         }
         public static MoneyTransaction FromFileLine(string line)
         {
@@ -28,7 +28,7 @@ namespace FFXIVMoneyTracker.Models
             return new MoneyTransaction
             {
                 TimeStamp = DateTime.ParseExact(parts[0], "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal),
-                NewTotal = Convert.ToInt64(parts[1]),
+                Total = Convert.ToInt64(parts[1]),
                 Change = Convert.ToInt64(parts[2])
             };
         }

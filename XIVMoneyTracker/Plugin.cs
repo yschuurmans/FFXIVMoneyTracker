@@ -122,7 +122,7 @@ namespace FFXIVMoneyTracker
                     new MoneyTransaction()
                     {
                         Change = gil,
-                        NewTotal = gil,
+                        Total = gil,
                         TimeStamp = DateTime.Now
                     });
 
@@ -150,7 +150,7 @@ namespace FFXIVMoneyTracker
             player!.AddTransaction(new MoneyTransaction
             {
                 TimeStamp = DateTime.Now,
-                NewTotal = currentGil,
+                Total = currentGil,
                 Change = currentGil - player.CurrentAmount
             });
             player.CurrentAmount = currentGil;
@@ -194,7 +194,7 @@ namespace FFXIVMoneyTracker
 
             foreach (var transaction in character.Transactions)
             {
-                csv.AppendLine($"{transaction.TimeStamp},{transaction.NewTotal},{transaction.Change}");
+                csv.AppendLine($"{transaction.TimeStamp},{transaction.Total},{transaction.Change}");
             }
 
             try

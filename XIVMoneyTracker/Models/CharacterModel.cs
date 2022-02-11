@@ -30,7 +30,7 @@ namespace FFXIVMoneyTracker.Models
 
             foreach (var transaction in Transactions)
             {
-                csv.AppendLine($"{transaction.TimeStamp},{transaction.NewTotal},{transaction.Change}");
+                csv.AppendLine($"{transaction.TimeStamp},{transaction.Total},{transaction.Change}");
             }
             try
             {
@@ -51,10 +51,27 @@ namespace FFXIVMoneyTracker.Models
         {
             string[] lines = File.ReadAllLines(Path.Join(Plugin.Instance.PluginInterface.ConfigDirectory.FullName, $"{Name}_{World}.txt"));
             Transactions = new List<MoneyTransaction>();
+
+            MoneyTransaction? currentTransaction = null;
+            DateTime clusterEnd = DateTime.MinValue;
+
             foreach (string line in lines)
             {
-                Transactions.Add(MoneyTransaction.FromFileLine(line));
+                var transaction = MoneyTransaction.FromFileLine(line);
+
+                if (currentTransaction == null || transaction.TimeStamp > clusterEnd)
+                {
+                    currentTransaction = transaction;
+                    Transactions.Add(currentTransaction);
+                    clusterEnd = currentTransaction.TimeStamp.AddMinutes(Plugin.Instance.Configuration.ClusterSizeInMinutes);
+                }
+                else
+                {
+                    currentTransaction.Change += transaction.Change;
+                    currentTransaction.TimeStamp = transaction.TimeStamp;
+                }
             }
+
         }
     }
 }
