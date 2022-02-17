@@ -69,6 +69,7 @@ namespace FFXIVMoneyTracker.Models
                 {
                     currentTransaction.Change += transaction.Change;
                     currentTransaction.TimeStamp = transaction.TimeStamp;
+                    currentTransaction.Total = transaction.Total;
                 }
             }
 
