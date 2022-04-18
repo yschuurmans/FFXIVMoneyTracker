@@ -21,7 +21,7 @@
       "tracker"
     ],
 
-    "AssemblyVersion": "0.0.2.4",
-    "Changelog": "Added minute groupings"
+    "AssemblyVersion": "0.0.2.5",
+    "Changelog": "Maybe fixed regional formatting"
   }
 ]

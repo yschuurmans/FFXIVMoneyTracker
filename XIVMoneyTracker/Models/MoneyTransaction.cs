@@ -20,7 +20,7 @@ namespace FFXIVMoneyTracker.Models
 
         public string ToFileLine()
         {
-            return $"{TimeStamp.ToString("dd/MM/yyyy HH:mm:ss")};{Total};{Change}";
+            return $"{TimeStamp.ToString("dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture)};{Total};{Change}";
         }
         public static MoneyTransaction FromFileLine(string line)
         {
