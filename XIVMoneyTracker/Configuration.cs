@@ -13,6 +13,7 @@ namespace FFXIVMoneyTracker
         public int ClusterSizeInMinutes { get; set; } = 60;
 
         public List<CharacterModel> Characters { get; set; } = new List<CharacterModel>();
+        public bool InverseSort { get; internal set; } = true;
 
 
         // the below exist just to make saving less cumbersome

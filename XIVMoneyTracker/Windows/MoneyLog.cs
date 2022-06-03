@@ -25,28 +25,47 @@ namespace FFXIVMoneyTracker.Windows
                 return;
             }
 
+
             ImGui.SetNextWindowSize(new Vector2(232, 75), ImGuiCond.FirstUseEver);
-            if (ImGui.Begin("Money log", ref this.visible,
-                ImGuiWindowFlags.AlwaysVerticalScrollbar))
+            if (ImGui.Begin("Money log", ref this.visible))
             {
-                if(ImGui.Button("Export to CSV"))
+                if (ImGui.Button("Export to CSV"))
                 {
                     this.plugin.ExportToFile();
                 }
+                ImGui.SameLine();
+                bool isInverted = plugin.Configuration.InverseSort;
+                if (ImGui.Checkbox("Inverse Sort", ref isInverted))
+                {
+                    plugin.Configuration.InverseSort = isInverted;
+                    plugin.Configuration.Save();
+                    plugin.GetCurrentCharacter()?.LoadAllTransactions(isInverted);
+                }
 
-                if(ImGui.InputInt("Minute Group Size", ref clusterSize, 5, 30, ImGuiInputTextFlags.EnterReturnsTrue)) {
+                ImGui.SetNextItemWidth(150);
+
+                if (ImGui.InputInt("Minute Group Size", ref clusterSize, 5, 30, ImGuiInputTextFlags.EnterReturnsTrue))
+                {
                     plugin.Configuration.ClusterSizeInMinutes = clusterSize;
                     plugin.Configuration.Save();
-                    plugin.GetCurrentCharacter()?.LoadAllTransactions();
+                    plugin.GetCurrentCharacter()?.LoadAllTransactions(isInverted);
                 }
 
-                if (plugin.CurrentCharacter != null)
+                Vector2 childScale = new Vector2(ImGui.GetWindowWidth() - 15, ImGui.GetWindowHeight() - 100);
+                if (ImGui.BeginChildFrame(1, childScale, ImGuiWindowFlags.AlwaysVerticalScrollbar))
                 {
-                    foreach (var transaction in plugin.CurrentCharacter.Transactions)
+
+                    if (plugin.CurrentCharacter != null)
                     {
-                        ImGui.Text(transaction.ToString());
+                        foreach (var transaction in plugin.CurrentCharacter.Transactions)
+                        {
+                            ImGui.Text(transaction.ToString());
+                        }
                     }
                 }
+                ImGui.EndChildFrame();
+
+
 
             }
             ImGui.End();

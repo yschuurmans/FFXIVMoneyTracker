@@ -24,7 +24,7 @@ namespace FFXIVMoneyTracker.Models
 
         public void ExportToCsv()
         {
-            LoadAllTransactions();
+            LoadAllTransactions(false);
 
             var csv = new StringBuilder();
 
@@ -47,7 +47,7 @@ namespace FFXIVMoneyTracker.Models
             }
         }
 
-        public void LoadAllTransactions()
+        public void LoadAllTransactions(bool isInverted)
         {
             string[] lines = File.ReadAllLines(Path.Join(Plugin.Instance.PluginInterface.ConfigDirectory.FullName, $"{Name}_{World}.txt"));
             Transactions = new List<MoneyTransaction>();
@@ -62,7 +62,10 @@ namespace FFXIVMoneyTracker.Models
                 if (currentTransaction == null || transaction.TimeStamp > clusterEnd)
                 {
                     currentTransaction = transaction;
-                    Transactions.Add(currentTransaction);
+                    if (isInverted)
+                        Transactions.Insert(0, currentTransaction);
+                    else
+                        Transactions.Add(currentTransaction);
                     clusterEnd = currentTransaction.TimeStamp.AddMinutes(Plugin.Instance.Configuration.ClusterSizeInMinutes);
                 }
                 else

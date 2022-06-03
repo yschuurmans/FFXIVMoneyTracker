@@ -170,7 +170,7 @@ namespace FFXIVMoneyTracker
         private void OnCommand(string command, string args)
         {
             // in response to the slash command, just display our main ui
-            GetCurrentCharacter()?.LoadAllTransactions();
+            GetCurrentCharacter()?.LoadAllTransactions(Configuration.InverseSort);
             this.PluginUI.MoneyLogWindow.Visible = true;
         }
 
@@ -181,7 +181,7 @@ namespace FFXIVMoneyTracker
 
         private void DrawConfigUI()
         {
-            GetCurrentCharacter()?.LoadAllTransactions();
+            GetCurrentCharacter()?.LoadAllTransactions(Configuration.InverseSort);
 
             this.PluginUI.MoneyLogWindow.Visible = true;
         }
