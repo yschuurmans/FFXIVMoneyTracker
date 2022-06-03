@@ -22,8 +22,6 @@
     ],
 
     "AssemblyVersion": "0.0.2.6",
-    "Changelog": [
-      "- Clearer divider between settings and data\n- Reversed transaction list, the newest transaction is now on top\n- Maybe fixed regional formatting"
-    ]
+    "Changelog": "- Clearer divider between settings and data\n- Reversed transaction list, the newest transaction is now on top\n- Maybe fixed regional formatting"
   }
 ]
