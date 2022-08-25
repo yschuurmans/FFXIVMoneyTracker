@@ -6,7 +6,7 @@
     "Description": "For when you want to know how much you spend/earn in ffxiv!",
     "InternalName": "XIVMoneyTracker",
     "ApplicableVersion": "any",
-    "DalamudApiLevel": 6,
+    "DalamudApiLevel": 7,
     "IsHide": false,
     "IsTestingExclusive": false,
     "RepoUrl": "https://github.com/yschuurmans/FFXIVMoneyTracker",
@@ -21,7 +21,7 @@
       "tracker"
     ],
 
-    "AssemblyVersion": "0.0.2.6",
-    "Changelog": "- Clearer divider between settings and data\n- Reversed transaction list, the newest transaction is now on top\n- Maybe fixed regional formatting"
+    "AssemblyVersion": "0.0.2.8",
+    "Changelog": "- Updated for API version 7"
   }
 ]
