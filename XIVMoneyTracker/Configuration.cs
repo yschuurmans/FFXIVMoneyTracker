@@ -10,7 +10,7 @@ namespace FFXIVMoneyTracker
     public class Configuration : IPluginConfiguration
     {
         public int Version { get; set; } = 0;
-        public int ClusterSizeInMinutes { get; set; } = 60;
+        public int ClusterSizeInHours { get; set; } = 24;
 
         public List<CharacterModel> Characters { get; set; } = new List<CharacterModel>();
         public bool InverseSort { get; internal set; } = true;

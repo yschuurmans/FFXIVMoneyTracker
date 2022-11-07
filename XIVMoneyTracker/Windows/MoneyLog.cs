@@ -1,11 +1,6 @@
-﻿using FFXIVMoneyTracker.Models;
-using ImGuiNET;
-using System;
-using System.Collections.Generic;
+﻿using ImGuiNET;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FFXIVMoneyTracker.Windows
 {
@@ -15,7 +10,7 @@ namespace FFXIVMoneyTracker.Windows
 
         public MoneyLog(Plugin plugin, PluginUI pluginUI) : base(plugin, pluginUI)
         {
-            clusterSize = plugin.Configuration.ClusterSizeInMinutes;
+            clusterSize = plugin.Configuration.ClusterSizeInHours;
         }
 
         public override void Draw()
@@ -34,21 +29,26 @@ namespace FFXIVMoneyTracker.Windows
                     this.plugin.ExportToFile();
                 }
                 ImGui.SameLine();
+                if (ImGui.Button("Open Graph"))
+                {
+                    this.pluginUI.MoneyGraphWindow.visible = true;
+                }
+                ImGui.SameLine();
                 bool isInverted = plugin.Configuration.InverseSort;
                 if (ImGui.Checkbox("Inverse Sort", ref isInverted))
                 {
                     plugin.Configuration.InverseSort = isInverted;
                     plugin.Configuration.Save();
-                    plugin.GetCurrentCharacter()?.LoadAllTransactions(isInverted);
+                    plugin.GetCurrentCharacter()?.LoadAllTransactions();
                 }
 
                 ImGui.SetNextItemWidth(150);
 
-                if (ImGui.InputInt("Minute Group Size", ref clusterSize, 5, 30, ImGuiInputTextFlags.EnterReturnsTrue))
+                if (ImGui.InputInt("Hour Group Size", ref clusterSize, 5, 30, ImGuiInputTextFlags.EnterReturnsTrue))
                 {
-                    plugin.Configuration.ClusterSizeInMinutes = clusterSize;
+                    plugin.Configuration.ClusterSizeInHours = clusterSize;
                     plugin.Configuration.Save();
-                    plugin.GetCurrentCharacter()?.LoadAllTransactions(isInverted);
+                    plugin.GetCurrentCharacter()?.LoadAllTransactions();
                 }
 
                 Vector2 childScale = new Vector2(ImGui.GetWindowWidth() - 15, ImGui.GetWindowHeight() - 100);
@@ -57,14 +57,17 @@ namespace FFXIVMoneyTracker.Windows
 
                     if (plugin.CurrentCharacter != null)
                     {
-                        foreach (var transaction in plugin.CurrentCharacter.Transactions)
+                        var transactionEnumerable = isInverted
+                            ? plugin.CurrentCharacter.Transactions.AsEnumerable().Reverse()
+                            : plugin.CurrentCharacter.Transactions.AsEnumerable();
+
+                        foreach (var transaction in transactionEnumerable)
                         {
                             ImGui.Text(transaction.ToString());
                         }
                     }
                 }
                 ImGui.EndChildFrame();
-
 
 
             }

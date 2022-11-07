@@ -21,7 +21,7 @@
       "tracker"
     ],
 
-    "AssemblyVersion": "0.0.2.8",
-    "Changelog": "- Updated for API version 7"
+    "AssemblyVersion": "0.0.3.0",
+    "Changelog": "- Added simplistic graph function"
   }
 ]

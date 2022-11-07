@@ -11,7 +11,7 @@ namespace FFXIVMoneyTracker.Models
         public string World { get; set; }
         public long CurrentAmount { get; set; }
 
-        //[NonSerialized]
+        [NonSerialized]
         public List<MoneyTransaction> Transactions = new List<MoneyTransaction>();
 
         internal void AddTransaction(MoneyTransaction moneyTransaction)
@@ -24,7 +24,7 @@ namespace FFXIVMoneyTracker.Models
 
         public void ExportToCsv()
         {
-            LoadAllTransactions(false);
+            LoadAllTransactions();
 
             var csv = new StringBuilder();
 
@@ -47,7 +47,7 @@ namespace FFXIVMoneyTracker.Models
             }
         }
 
-        public void LoadAllTransactions(bool isInverted)
+        public void LoadAllTransactions()
         {
             string[] lines = File.ReadAllLines(Path.Join(Plugin.Instance.PluginInterface.ConfigDirectory.FullName, $"{Name}_{World}.txt"));
             Transactions = new List<MoneyTransaction>();
@@ -62,11 +62,8 @@ namespace FFXIVMoneyTracker.Models
                 if (currentTransaction == null || transaction.TimeStamp > clusterEnd)
                 {
                     currentTransaction = transaction;
-                    if (isInverted)
-                        Transactions.Insert(0, currentTransaction);
-                    else
-                        Transactions.Add(currentTransaction);
-                    clusterEnd = currentTransaction.TimeStamp.AddMinutes(Plugin.Instance.Configuration.ClusterSizeInMinutes);
+                    Transactions.Add(currentTransaction);
+                    clusterEnd = currentTransaction.TimeStamp.AddHours(Plugin.Instance.Configuration.ClusterSizeInHours);
                 }
                 else
                 {

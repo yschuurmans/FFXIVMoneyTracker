@@ -1,9 +1,5 @@
 ﻿using FFXIVMoneyTracker.Windows;
-using ImGuiNET;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 
 namespace FFXIVMoneyTracker
 {
@@ -14,12 +10,14 @@ namespace FFXIVMoneyTracker
         private Plugin plugin;
 
         public MoneyLog MoneyLogWindow { get; set; }
+        public MoneyGraph MoneyGraphWindow { get; set; }
 
         public PluginUI(Plugin plugin)
         {
             this.plugin = plugin;
 
             MoneyLogWindow = new MoneyLog(plugin, this);
+            MoneyGraphWindow = new MoneyGraph(plugin, this);
         }
 
         public void Dispose()
@@ -36,6 +34,7 @@ namespace FFXIVMoneyTracker
             // draw delegates as low as possible.
 
             MoneyLogWindow.Draw();
+            MoneyGraphWindow.Draw();
         }
     }
 }

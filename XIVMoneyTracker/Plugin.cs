@@ -1,16 +1,12 @@
 ﻿using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Game.Command;
 using Dalamud.Game.Gui;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.IoC;
 using Dalamud.Plugin;
-using FFXIVClientStructs.FFXIV.Client.Game;
 using FFXIVMoneyTracker.Models;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -21,8 +17,6 @@ namespace FFXIVMoneyTracker
     public sealed class Plugin : IDalamudPlugin
     {
         public string Name => "MoneyTrack";
-
-        private const string commandName = "/mtrack";
 
         public static Plugin Instance;
 
@@ -63,9 +57,13 @@ namespace FFXIVMoneyTracker
             var assemblyLocation = Assembly.GetExecutingAssembly().Location;
             this.PluginUI = new PluginUI(this);
 
-            this.CommandManager.AddHandler(commandName, new CommandInfo(OnCommand)
+            this.CommandManager.AddHandler("/mtrack", new CommandInfo(OnWindowCommand)
             {
                 HelpMessage = "View the moneytracker"
+            });
+            this.CommandManager.AddHandler("/mtrack graph", new CommandInfo(OnGraphCommand)
+            {
+                HelpMessage = "View the moneytracker graph"
             });
 
             this.PluginInterface.UiBuilder.Draw += DrawUI;
@@ -75,6 +73,12 @@ namespace FFXIVMoneyTracker
             clientState.TerritoryChanged += Player_TerritoryChanged;
             clientState.Login += Player_Login;
             clientState.Logout += Player_Logout;
+
+
+#if DEBUG
+            CurrentCharacter = this.Configuration.Characters
+                                .FirstOrDefault();
+#endif
         }
 
         private void Player_Login(object? sender, System.EventArgs e)
@@ -104,6 +108,7 @@ namespace FFXIVMoneyTracker
 
             CurrentCharacter = this.Configuration.Characters
                                 .FirstOrDefault(x => x.Name == this.ClientState.LocalPlayer?.Name.TextValue);
+
 
             if (CurrentCharacter != null)
             {
@@ -164,14 +169,22 @@ namespace FFXIVMoneyTracker
             this.ChatGui.ChatMessage -= Chat_OnChatMessage;
 
             this.PluginUI.Dispose();
-            this.CommandManager.RemoveHandler(commandName);
+            this.CommandManager.RemoveHandler("/mtrack");
+            this.CommandManager.RemoveHandler("/mtrack graph");
         }
 
-        private void OnCommand(string command, string args)
+        private void OnWindowCommand(string command, string args)
         {
             // in response to the slash command, just display our main ui
-            GetCurrentCharacter()?.LoadAllTransactions(Configuration.InverseSort);
+            GetCurrentCharacter()?.LoadAllTransactions();
             this.PluginUI.MoneyLogWindow.Visible = true;
+        }
+
+        private void OnGraphCommand(string command, string args)
+        {
+            // in response to the slash command, just display our main ui
+            GetCurrentCharacter()?.LoadAllTransactions();
+            this.PluginUI.MoneyGraphWindow.Visible = true;
         }
 
         private void DrawUI()
@@ -181,7 +194,7 @@ namespace FFXIVMoneyTracker
 
         private void DrawConfigUI()
         {
-            GetCurrentCharacter()?.LoadAllTransactions(Configuration.InverseSort);
+            GetCurrentCharacter()?.LoadAllTransactions();
 
             this.PluginUI.MoneyLogWindow.Visible = true;
         }
