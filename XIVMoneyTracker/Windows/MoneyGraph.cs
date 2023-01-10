@@ -43,7 +43,7 @@ namespace FFXIVMoneyTracker.Windows
                 }
 
                 Vector2 childScale = new Vector2(ImGui.GetWindowWidth() - 15, ImGui.GetWindowHeight() - 100);
-                //Some testing regarding graphs, don't mind this
+
                 float[] graphData = plugin.CurrentCharacter.Transactions
                     .Where(x => x.TimeStamp > DateTime.Now.AddDays(-daysShown))
                     .Select(x => (float)Math.Round(x.Total / divisionFactor, 3)).ToArray();
