@@ -38,7 +38,7 @@ namespace FFXIVMoneyTracker
             [RequiredVersion("1.0")] Dalamud.Game.Gui.ChatGui chatGui,
             [RequiredVersion("1.0")] Dalamud.Game.ClientState.ClientState clientState)
         {
-            FFXIVClientStructs.Resolver.Initialize();
+            FFXIVClientStructs.Interop.Resolver.GetInstance.Resolve();
 
             Instance = this;
             this.PluginInterface = pluginInterface;

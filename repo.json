@@ -21,7 +21,7 @@
       "tracker"
     ],
 
-    "AssemblyVersion": "0.0.4.0",
-    "Changelog": "-Updated to Api Level 8 \n- Added simplistic graph function"
+    "AssemblyVersion": "0.0.4.1",
+    "Changelog": "-Fixed bug in new resolver syntax \n-Updated to Api Level 8 \n- Added simplistic graph function"
   }
 ]
