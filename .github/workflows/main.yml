@@ -12,7 +12,7 @@ env:
   PUBLIC_NAME: XIVMoneyTracker
   SOLUTION_NAME: XIVMoneyTracker
   INTERNAL_NAME: XIVMoneyTracker
-  RELEASE_DIR: latest.zip
+  RELEASE_DIR: XIVMoneyTracker\bin\Release\XIVMoneyTracker
   PERSONAL_PLUGIN_REPO: daemitus/MyDalamudPlugins
   PR_PLUGIN_REPO: daemitus/DalamudPlugins
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -44,22 +44,22 @@ jobs:
         path: ${{ env.RELEASE_DIR }}
         if-no-files-found: error
 
-#   deploy:
-#     needs: build
-#     if: "contains(toJSON(github.event.commits.*.message), '[PUSH]')"
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v2
-#       with:
-#         repository: ${{ env.PERSONAL_PLUGIN_REPO }}
-#         token: ${{ secrets.PAT }}
-#     - uses: actions/download-artifact@v2
-#       with:
-#         name: PluginRepoZip
-#         path: plugins/${{ env.INTERNAL_NAME }}
-#     - uses: EndBug/add-and-commit@v7
-#       with:
-#         add: --all
-#         author_name: GitHub Action
-#         author_email: github-actions[bot]@users.noreply.github.com
-#         message: Update ${{ env.INTERNAL_NAME }}
+  deploy:
+    needs: build
+    if: "contains(toJSON(github.event.commits.*.message), '[PUSH]')"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: ${{ env.PERSONAL_PLUGIN_REPO }}
+        token: ${{ secrets.PAT }}
+    - uses: actions/download-artifact@v2
+      with:
+        name: PluginRepoZip
+        path: plugins/${{ env.INTERNAL_NAME }}
+    - uses: EndBug/add-and-commit@v7
+      with:
+        add: --all
+        author_name: GitHub Action
+        author_email: github-actions[bot]@users.noreply.github.com
+        message: Update ${{ env.INTERNAL_NAME }}
