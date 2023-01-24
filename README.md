@@ -8,9 +8,13 @@ I created this plugin for personal use, because I wanted to know my profits and 
 * **Be sure that "Enable in-game features" is on in the launcher settings to access in-game commands and features!**
 * Access Dalamud's settings by typing `/xlsettings` in the chat window and pressing enter.
 * Click on the "Experimental" tab.
-* Copy and Paste in the following URL into one of the blank inputs under the "Custom Plugin Repositories" section: https://raw.githubusercontent.com/yschuurmans/FFXIVMoneyTracker/master/repo.json
+* Copy and Paste in the following URL into one of the blank inputs under the "Custom Plugin Repositories" section: `https://raw.githubusercontent.com/yschuurmans/MyDalamudPlugins/master/pluginmaster.json`
 * Click the "+" button to add it to the list.
 * Check the "Enabled" box for your new entry.
 * Click "Save and Close" at the bottom.
 * Open Dalamud's plugin menu by typing `/xlplugins` in the chat window and pressing enter.
 * Look for the "Money Tracker" plugin, and click on install.
+
+## Migrating from the old XIVMoneyTracker
+* If you have used the old XIVMoneyTracker Repo, make sure to **remove** the line that says:
+`https://raw.githubusercontent.com/yschuurmans/FFXIVMoneyTracker/master/repo.json`
