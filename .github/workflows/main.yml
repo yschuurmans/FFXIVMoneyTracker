@@ -13,8 +13,7 @@ env:
   SOLUTION_NAME: XIVMoneyTracker
   INTERNAL_NAME: XIVMoneyTracker
   RELEASE_DIR: XIVMoneyTracker\bin\Release\XIVMoneyTracker
-  PERSONAL_PLUGIN_REPO: daemitus/MyDalamudPlugins
-  PR_PLUGIN_REPO: daemitus/DalamudPlugins
+  PERSONAL_PLUGIN_REPO: yschuurmans/MyDalamudPlugins
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
 jobs:
