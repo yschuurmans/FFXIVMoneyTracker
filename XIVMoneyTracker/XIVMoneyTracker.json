@@ -5,7 +5,7 @@
   "Description": "For when you want to know how much you spend/earn in ffxiv!",
   "InternalName": "XIVMoneyTracker",
   "RepoUrl": "https://github.com/yschuurmans/FFXIVMoneyTracker",
-  "IconUrl": "https://raw.githubusercontent.com/yschuurmans/FFXIVMoneyTracker/master/res/icon.png",
+  "IconUrl": "https://raw.githubusercontent.com/yschuurmans/FFXIVMoneyTracker/master/res/Icon.png",
   "Tags": [
     "money",
     "plugin",
