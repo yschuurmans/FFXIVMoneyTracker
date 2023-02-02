@@ -11,5 +11,10 @@
     "plugin",
     "tracker"
   ],
+  "ImageUrls": [
+    "https://raw.githubusercontent.com/yschuurmans/FFXIVMoneyTracker/master/res/images/image1.png",
+    "https://raw.githubusercontent.com/yschuurmans/FFXIVMoneyTracker/master/res/images/image2.png",
+    "https://raw.githubusercontent.com/yschuurmans/FFXIVMoneyTracker/master/res/images/image3.png"
+  ],
   "Changelog": "-Added an Icon to the plugin\n-Moved to new Repository! :D\n-Fixed bug in new resolver syntax \n-Updated to Api Level 8"
 }
