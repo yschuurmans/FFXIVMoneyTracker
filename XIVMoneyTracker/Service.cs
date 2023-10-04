@@ -1,19 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Dalamud.Data;
-using Dalamud.Game;
-using Dalamud.Game.ClientState;
-using Dalamud.Game.ClientState.Conditions;
-using Dalamud.Game.ClientState.JobGauge;
-using Dalamud.Game.ClientState.Keys;
+﻿using Dalamud.Game;
 using Dalamud.Game.ClientState.Objects;
-using Dalamud.Game.ClientState.Party;
-using Dalamud.Game.Command;
-using Dalamud.Game.Gui;
-using Dalamud.Game.Gui.Toast;
-using Dalamud.Game.Libc;
-using Dalamud.Interface;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FFXIVMoneyTracker
 {
@@ -21,20 +11,20 @@ namespace FFXIVMoneyTracker
     public class Service
     {
         [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; }
-        [PluginService] public static ChatGui Chat { get; private set; }
-        [PluginService] public static ClientState ClientState { get; private set; }
-        [PluginService] public static CommandManager Commands { get; private set; }
-        [PluginService] public static Condition Condition { get; private set; }
-        [PluginService] public static DataManager Data { get; private set; }
-        [PluginService] public static Framework Framework { get; private set; }
-        [PluginService] public static GameGui GameGui { get; private set; }
-        [PluginService] public static KeyState KeyState { get; private set; }
-        [PluginService] public static LibcFunction LibcFunction { get; private set; }
-        [PluginService] public static ObjectTable Objects { get; private set; }
-        [PluginService] public static SigScanner SigScanner { get; private set; }
-        [PluginService] public static TargetManager Targets { get; private set; }
-        [PluginService] public static ToastGui Toasts { get; private set; }
-        [PluginService] public static JobGauges JobGauges { get; private set; }
-        [PluginService] public static PartyList PartyList { get; private set; }
+        [PluginService] public static IChatGui Chat { get; private set; }
+        [PluginService] public static IClientState ClientState { get; private set; }
+        [PluginService] public static ICommandManager Commands { get; private set; }
+        [PluginService] public static ICondition Condition { get; private set; }
+        [PluginService] public static IDataManager Data { get; private set; }
+        [PluginService] public static IFramework Framework { get; private set; }
+        [PluginService] public static IGameGui GameGui { get; private set; }
+        [PluginService] public static IKeyState KeyState { get; private set; }
+        [PluginService] public static ILibcFunction LibcFunction { get; private set; }
+        [PluginService] public static IObjectTable Objects { get; private set; }
+        [PluginService] public static ISigScanner SigScanner { get; private set; }
+        [PluginService] public static ITargetManager Targets { get; private set; }
+        [PluginService] public static IToastGui Toasts { get; private set; }
+        [PluginService] public static IJobGauges JobGauges { get; private set; }
+        [PluginService] public static IPartyList PartyList { get; private set; }
     }
 }

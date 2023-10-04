@@ -1,10 +1,9 @@
-﻿using Dalamud.Game.ClientState;
-using Dalamud.Game.Command;
-using Dalamud.Game.Gui;
+﻿using Dalamud.Game.Command;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using FFXIVMoneyTracker.Models;
 using System;
 using System.IO;
@@ -21,9 +20,9 @@ namespace FFXIVMoneyTracker
         public static Plugin Instance;
 
         public DalamudPluginInterface PluginInterface { get; init; }
-        public CommandManager CommandManager { get; init; }
-        public ChatGui ChatGui { get; init; }
-        public ClientState ClientState { get; init; }
+        public ICommandManager CommandManager { get; init; }
+        public IChatGui ChatGui { get; init; }
+        public IClientState ClientState { get; init; }
         public Configuration Configuration { get; init; }
         public PluginUI PluginUI { get; init; }
         public InventoryHelper Inventory { get; set; }
@@ -34,9 +33,9 @@ namespace FFXIVMoneyTracker
 
         public Plugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] CommandManager commandManager,
-            [RequiredVersion("1.0")] Dalamud.Game.Gui.ChatGui chatGui,
-            [RequiredVersion("1.0")] Dalamud.Game.ClientState.ClientState clientState)
+            [RequiredVersion("1.0")] ICommandManager commandManager,
+            [RequiredVersion("1.0")] IChatGui chatGui,
+            [RequiredVersion("1.0")] IClientState clientState)
         {
             //FFXIVClientStructs.Interop.Resolver.GetInstance.Resolve();
 
@@ -81,15 +80,15 @@ namespace FFXIVMoneyTracker
 #endif
         }
 
-        private void Player_Login(object? sender, System.EventArgs e)
+        private void Player_Login()
         {
             ClearCache();
         }
-        private void Player_Logout(object? sender, System.EventArgs e)
+        private void Player_Logout()
         {
             ClearCache();
         }
-        private void Player_TerritoryChanged(object? sender, ushort e)
+        private void Player_TerritoryChanged(ushort e)
         {
             ClearCache();
         }
