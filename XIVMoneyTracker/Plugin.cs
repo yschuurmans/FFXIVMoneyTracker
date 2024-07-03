@@ -19,7 +19,7 @@ namespace FFXIVMoneyTracker
 
         public static Plugin Instance;
 
-        public DalamudPluginInterface PluginInterface { get; init; }
+        public IDalamudPluginInterface PluginInterface { get; init; }
         public ICommandManager CommandManager { get; init; }
         public IChatGui ChatGui { get; init; }
         public IClientState ClientState { get; init; }
@@ -32,10 +32,10 @@ namespace FFXIVMoneyTracker
         public DateTime LastUpdate { get; set; }
 
         public Plugin(
-            [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] ICommandManager commandManager,
-            [RequiredVersion("1.0")] IChatGui chatGui,
-            [RequiredVersion("1.0")] IClientState clientState)
+            IDalamudPluginInterface pluginInterface,
+            ICommandManager commandManager,
+            IChatGui chatGui,
+            IClientState clientState)
         {
             //FFXIVClientStructs.Interop.Resolver.GetInstance.Resolve();
 
@@ -136,7 +136,7 @@ namespace FFXIVMoneyTracker
             return CurrentCharacter;
         }
 
-        private void Chat_OnChatMessage(XivChatType type, uint senderId, ref SeString sender, ref SeString message, ref bool isHandled)
+        private void Chat_OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
         {
             if (type != XivChatType.SystemMessage) return;
             if (LastUpdate.AddSeconds(5) > DateTime.Now) return;
