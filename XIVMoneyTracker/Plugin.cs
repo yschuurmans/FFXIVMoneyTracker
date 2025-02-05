@@ -1,7 +1,6 @@
 ﻿using Dalamud.Game.Command;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
-using Dalamud.IoC;
 using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using FFXIVMoneyTracker.Models;
@@ -80,6 +79,7 @@ namespace FFXIVMoneyTracker
 #endif
         }
 
+
         private void Player_Login()
         {
             ClearCache();
@@ -88,6 +88,7 @@ namespace FFXIVMoneyTracker
         {
             ClearCache();
         }
+
         private void Player_TerritoryChanged(ushort e)
         {
             ClearCache();
@@ -119,7 +120,7 @@ namespace FFXIVMoneyTracker
             CurrentCharacter = new CharacterModel()
             {
                 Name = this.ClientState.LocalPlayer!.Name.TextValue,
-                World = this.ClientState.LocalPlayer!.HomeWorld.Value.Name.ToString(),
+                World = this.ClientState.LocalPlayer!.HomeWorld.Value.Name.ExtractText(),
                 CurrentAmount = gil
             };
             CurrentCharacter.AddTransaction(
