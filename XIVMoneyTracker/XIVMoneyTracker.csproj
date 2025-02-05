@@ -3,14 +3,14 @@
 	<PropertyGroup>
 		<Authors></Authors>
 		<Company></Company>
-		<Version>0.0.6.0</Version>
+		<Version>0.0.7.1</Version>
 		<Description>For when you want to know how much you spend/earn in ffxiv!</Description>
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFramework>net8.0-windows8.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<Platforms>x64</Platforms>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
@@ -35,7 +35,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DalamudPackager" Version="2.1.12" />
+		<PackageReference Include="DalamudPackager" Version="2.1.13" />
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
 			<Private>false</Private>
