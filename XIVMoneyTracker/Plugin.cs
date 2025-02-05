@@ -84,7 +84,7 @@ namespace FFXIVMoneyTracker
         {
             ClearCache();
         }
-        private void Player_Logout()
+        private void Player_Logout(int type, int code)
         {
             ClearCache();
         }
@@ -102,7 +102,7 @@ namespace FFXIVMoneyTracker
         public CharacterModel? GetCurrentCharacter()
         {
             if (CurrentCharacter != null) return CurrentCharacter;
-            if (this.ClientState.LocalPlayer?.Name.TextValue == null || this.ClientState.LocalPlayer?.HomeWorld?.GameData?.Name == null) return null;
+            if (this.ClientState.LocalPlayer?.Name.TextValue == null || this.ClientState.LocalPlayer?.HomeWorld.Value.Name == null) return null;
 
 
             CurrentCharacter = this.Configuration.Characters
@@ -119,7 +119,7 @@ namespace FFXIVMoneyTracker
             CurrentCharacter = new CharacterModel()
             {
                 Name = this.ClientState.LocalPlayer!.Name.TextValue,
-                World = this.ClientState.LocalPlayer!.HomeWorld.GameData.Name.RawString,
+                World = this.ClientState.LocalPlayer!.HomeWorld.Value.Name.ToString(),
                 CurrentAmount = gil
             };
             CurrentCharacter.AddTransaction(
