@@ -14,6 +14,13 @@ namespace FFXIVMoneyTracker.Models
         [NonSerialized]
         public List<MoneyTransaction> Transactions = new List<MoneyTransaction>();
 
+        public CharacterModel(string name, string world, long currentAmount)
+        {
+            Name = name;
+            World = world;
+            CurrentAmount = currentAmount;
+        }
+
         internal void AddTransaction(MoneyTransaction moneyTransaction)
         {
             using (StreamWriter w = File.AppendText(Path.Join(Plugin.Instance.PluginInterface.ConfigDirectory.FullName, $"{Name}_{World}.txt")))

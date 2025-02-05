@@ -16,7 +16,7 @@ namespace FFXIVMoneyTracker
     {
         public string Name => "MoneyTrack";
 
-        public static Plugin Instance;
+        public static Plugin? Instance;
 
         public IDalamudPluginInterface PluginInterface { get; init; }
         public ICommandManager CommandManager { get; init; }
@@ -36,37 +36,36 @@ namespace FFXIVMoneyTracker
             IChatGui chatGui,
             IClientState clientState)
         {
-            //FFXIVClientStructs.Interop.Resolver.GetInstance.Resolve();
-
             Instance = this;
-            this.PluginInterface = pluginInterface;
-            this.CommandManager = commandManager;
-            this.ChatGui = chatGui;
-            this.ClientState = clientState;
 
-            this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
-            this.Configuration.Initialize(this.PluginInterface);
+            PluginInterface = pluginInterface;
+            CommandManager = commandManager;
+            ChatGui = chatGui;
+            ClientState = clientState;
+
+            Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
+            Configuration.Initialize(this.PluginInterface);
 
             Inventory = new InventoryHelper();
 
-            pluginInterface.Create<Service>();
-
             // you might normally want to embed resources and load them from the manifest stream
             var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-            this.PluginUI = new PluginUI(this);
+            PluginUI = new PluginUI(this);
 
-            this.CommandManager.AddHandler("/mtrack", new CommandInfo(OnWindowCommand)
+            CommandManager.AddHandler("/mtrack", new CommandInfo(OnWindowCommand)
             {
                 HelpMessage = "View the moneytracker"
             });
-            this.CommandManager.AddHandler("/mtrack graph", new CommandInfo(OnGraphCommand)
+            CommandManager.AddHandler("/mtrack graph", new CommandInfo(OnGraphCommand)
             {
                 HelpMessage = "View the moneytracker graph"
             });
 
-            this.PluginInterface.UiBuilder.Draw += DrawUI;
-            this.PluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
-            this.ChatGui.ChatMessage += Chat_OnChatMessage;
+            PluginInterface.UiBuilder.Draw += DrawUI;
+            PluginInterface.UiBuilder.OpenConfigUi += DrawMainUI;
+            PluginInterface.UiBuilder.OpenMainUi += DrawMainUI;
+
+            ChatGui.ChatMessage += Chat_OnChatMessage;
 
             clientState.TerritoryChanged += Player_TerritoryChanged;
             clientState.Login += Player_Login;
@@ -103,7 +102,7 @@ namespace FFXIVMoneyTracker
         public CharacterModel? GetCurrentCharacter()
         {
             if (CurrentCharacter != null) return CurrentCharacter;
-            if (this.ClientState.LocalPlayer?.Name.TextValue == null || this.ClientState.LocalPlayer?.HomeWorld.Value.Name == null) return null;
+            if (ClientState.LocalPlayer?.Name.TextValue == null || this.ClientState.LocalPlayer?.HomeWorld.Value.Name == null) return null;
 
 
             CurrentCharacter = this.Configuration.Characters
@@ -117,12 +116,11 @@ namespace FFXIVMoneyTracker
             }
 
             var gil = Inventory.GetGil();
-            CurrentCharacter = new CharacterModel()
-            {
-                Name = this.ClientState.LocalPlayer!.Name.TextValue,
-                World = this.ClientState.LocalPlayer!.HomeWorld.Value.Name.ExtractText(),
-                CurrentAmount = gil
-            };
+            CurrentCharacter = new CharacterModel
+                (name: ClientState.LocalPlayer!.Name.TextValue,
+                world: ClientState.LocalPlayer!.HomeWorld.Value.Name.ExtractText(),
+                currentAmount: gil);
+
             CurrentCharacter.AddTransaction(
                     new MoneyTransaction()
                     {
@@ -165,7 +163,8 @@ namespace FFXIVMoneyTracker
         public void Dispose()
         {
             this.PluginInterface.UiBuilder.Draw -= DrawUI;
-            this.PluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
+            this.PluginInterface.UiBuilder.OpenConfigUi -= DrawMainUI;
+            this.PluginInterface.UiBuilder.OpenMainUi -= DrawMainUI;
             this.ChatGui.ChatMessage -= Chat_OnChatMessage;
 
             this.PluginUI.Dispose();
@@ -184,7 +183,7 @@ namespace FFXIVMoneyTracker
         {
             // in response to the slash command, just display our main ui
             GetCurrentCharacter()?.LoadAllTransactions();
-            this.PluginUI.MoneyGraphWindow.Visible = true;
+            DrawMainUI();
         }
 
         private void DrawUI()
@@ -192,7 +191,7 @@ namespace FFXIVMoneyTracker
             this.PluginUI.Draw();
         }
 
-        private void DrawConfigUI()
+        private void DrawMainUI()
         {
             GetCurrentCharacter()?.LoadAllTransactions();
 
@@ -202,6 +201,12 @@ namespace FFXIVMoneyTracker
         public void ExportToFile()
         {
             var character = GetCurrentCharacter();
+            if (character == null)
+            {
+                ChatGui.PrintError("Character not found!");
+                return;
+            }
+
             //before your loop
             var csv = new StringBuilder();
 

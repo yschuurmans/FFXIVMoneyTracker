@@ -20,6 +20,12 @@ namespace FFXIVMoneyTracker.Windows
                 return;
             }
 
+            if (plugin.CurrentCharacter == null)
+            {
+                ImGui.Text("No character loaded");
+                return;
+            }
+
             int average = (int)plugin.CurrentCharacter.Transactions.Average(x => x.Total);
             string unitName = "gil";
             float divisionFactor = 1;
