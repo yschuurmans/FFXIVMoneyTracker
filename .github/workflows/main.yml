@@ -37,7 +37,7 @@ jobs:
     - name: Test
       run: |
         dotnet test --no-restore --verbosity normal
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: PluginRepoZip
         path: ${{ env.RELEASE_DIR }}
@@ -52,7 +52,7 @@ jobs:
       with:
         repository: ${{ env.PERSONAL_PLUGIN_REPO }}
         token: ${{ secrets.PAT }}
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v4
       with:
         name: PluginRepoZip
         path: plugins/${{ env.INTERNAL_NAME }}
