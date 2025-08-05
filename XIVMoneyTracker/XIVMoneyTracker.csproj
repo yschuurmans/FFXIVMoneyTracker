@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
+<Project Sdk="Dalamud.NET.Sdk/13.0.0">
+  <PropertyGroup>
 		<Authors></Authors>
 		<Company></Company>
-		<Version>0.0.8.2</Version>
+		<Version>0.0.8.3</Version>
 		<Description>For when you want to know how much you spend/earn in ffxiv!</Description>
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>
@@ -35,7 +35,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DalamudPackager" Version="11.0.0" />
+		<PackageReference Include="DalamudPackager" Version="13.0.0" />
 		<Reference Include="FFXIVClientStructs">
 			<HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
 			<Private>false</Private>
