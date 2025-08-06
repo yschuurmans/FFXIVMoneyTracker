@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using Dalamud.Bindings.ImGui;
 using System;
 using System.Linq;
 using System.Numerics;
@@ -44,7 +44,7 @@ namespace FFXIVMoneyTracker.Windows
             ImGui.SetNextWindowSize(new Vector2(500, 500), ImGuiCond.FirstUseEver);
             if (ImGui.Begin("Money graph", ref this.visible))
             {
-                if (ImGui.InputInt("Amount of days shown", ref daysShown, 5, 30, ImGuiInputTextFlags.EnterReturnsTrue))
+                if (ImGui.InputInt("Amount of days shown", ref daysShown, 5, 30, default, ImGuiInputTextFlags.EnterReturnsTrue))
                 {
                 }
 
@@ -54,8 +54,7 @@ namespace FFXIVMoneyTracker.Windows
                     .Where(x => x.TimeStamp > DateTime.Now.AddDays(-daysShown))
                     .Select(x => (float)Math.Round(x.Total / divisionFactor, 3)).ToArray();
 
-                ImGui.PlotHistogram("", ref graphData[0], graphData.Length, 0, unitName, 0, graphData.Max(), childScale);
-
+                ImGui.PlotHistogram(ImU8String.Empty, graphData, 0, new ImU8String(unitName), float.MaxValue, float.MaxValue, childScale);
             }
             ImGui.End();
         }

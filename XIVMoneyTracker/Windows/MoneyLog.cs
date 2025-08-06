@@ -1,4 +1,4 @@
-﻿using ImGuiNET;
+﻿using Dalamud.Bindings.ImGui;
 using System.Linq;
 using System.Numerics;
 
@@ -44,7 +44,7 @@ namespace FFXIVMoneyTracker.Windows
 
                 ImGui.SetNextItemWidth(150);
 
-                if (ImGui.InputInt("Hour Group Size", ref clusterSize, 5, 30, ImGuiInputTextFlags.EnterReturnsTrue))
+                if (ImGui.InputInt(new ImU8String("Hour Group Size"), ref clusterSize, 5, 30, ImU8String.Empty, ImGuiInputTextFlags.EnterReturnsTrue))
                 {
                     plugin.Configuration.ClusterSizeInHours = clusterSize;
                     plugin.Configuration.Save();
