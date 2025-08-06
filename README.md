@@ -1,3 +1,5 @@
+[![Build](https://github.com/yschuurmans/FFXIVMoneyTracker/actions/workflows/main.yml/badge.svg)](https://github.com/yschuurmans/FFXIVMoneyTracker/actions/workflows/main.yml)
+
 ![](res/icon.png)
 # XIV Money Tracker 
 A tool to track your money earned and spent in ffxiv.
