@@ -3,14 +3,14 @@
   <PropertyGroup>
 		<Authors></Authors>
 		<Company></Company>
-		<Version>0.0.8.4</Version>
+		<Version>0.0.9.0</Version>
 		<Description>For when you want to know how much you spend/earn in ffxiv!</Description>
 		<Copyright></Copyright>
 		<PackageProjectUrl>https://github.com/goatcorp/SamplePlugin</PackageProjectUrl>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<TargetFramework>net9.0-windows</TargetFramework>
+		<TargetFramework>net10.0-windows7.0</TargetFramework>
 		<Platforms>x64</Platforms>
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
@@ -60,6 +60,11 @@
 			<HintPath>$(DalamudLibPath)Lumina.Excel.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="DalamudPackager" Version="14.0.0" />
+	  <PackageReference Update="DotNet.ReproducibleBuilds" Version="1.2.39" />
 	</ItemGroup>
 
 </Project>
