@@ -1,3 +1,5 @@
+[![Build](https://github.com/yschuurmans/FFXIVMoneyTracker/actions/workflows/main.yml/badge.svg)](https://github.com/yschuurmans/FFXIVMoneyTracker/actions/workflows/main.yml)
+
 ![](res/icon.png)
 # XIV Money Tracker 
 A tool to track your money earned and spent in ffxiv.
@@ -17,3 +19,4 @@ I initially created this plugin for personal use, because I wanted to know my pr
 * Click "Save and Close" at the bottom.
 * Open Dalamud's plugin menu by typing `/xlplugins` in the chat window and pressing enter.
 * Look for the "Money Tracker" plugin, and click on install.
+ 
