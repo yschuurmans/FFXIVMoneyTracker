@@ -12,7 +12,7 @@ env:
   PUBLIC_NAME: XIVMoneyTracker
   SOLUTION_NAME: XIVMoneyTracker
   INTERNAL_NAME: XIVMoneyTracker
-  RELEASE_DIR: XIVMoneyTracker\bin\Release\XIVMoneyTracker
+  RELEASE_DIR: XIVMoneyTracker\bin\Release\
   PERSONAL_PLUGIN_REPO: yschuurmans/MyDalamudPlugins
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
