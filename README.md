@@ -20,3 +20,4 @@ I initially created this plugin for personal use, because I wanted to know my pr
 * Open Dalamud's plugin menu by typing `/xlplugins` in the chat window and pressing enter.
 * Look for the "Money Tracker" plugin, and click on install.
  
+ 
