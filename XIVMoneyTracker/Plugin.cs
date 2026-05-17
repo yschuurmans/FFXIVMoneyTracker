@@ -1,4 +1,5 @@
-﻿using Dalamud.Game.Command;
+﻿using Dalamud.Game.Chat;
+using Dalamud.Game.Command;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin;
@@ -22,6 +23,7 @@ namespace FFXIVMoneyTracker
         public ICommandManager CommandManager { get; init; }
         public IChatGui ChatGui { get; init; }
         public IClientState ClientState { get; init; }
+        public IPlayerState PlayerState { get; init; }
         public Configuration Configuration { get; init; }
         public PluginUI PluginUI { get; init; }
         public InventoryHelper Inventory { get; set; }
@@ -34,7 +36,8 @@ namespace FFXIVMoneyTracker
             IDalamudPluginInterface pluginInterface,
             ICommandManager commandManager,
             IChatGui chatGui,
-            IClientState clientState)
+            IClientState clientState,
+            IPlayerState playerState)
         {
             Instance = this;
 
@@ -42,6 +45,7 @@ namespace FFXIVMoneyTracker
             CommandManager = commandManager;
             ChatGui = chatGui;
             ClientState = clientState;
+            PlayerState = playerState;
 
             Configuration = PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
             Configuration.Initialize(this.PluginInterface);
@@ -88,7 +92,7 @@ namespace FFXIVMoneyTracker
             ClearCache();
         }
 
-        private void Player_TerritoryChanged(ushort e)
+        private void Player_TerritoryChanged(uint e)
         {
             ClearCache();
         }
@@ -102,11 +106,12 @@ namespace FFXIVMoneyTracker
         public CharacterModel? GetCurrentCharacter()
         {
             if (CurrentCharacter != null) return CurrentCharacter;
-            if (ClientState.LocalPlayer?.Name.TextValue == null || this.ClientState.LocalPlayer?.HomeWorld.Value.Name == null) return null;
+            if (!PlayerState.IsLoaded) return null;
+            if (string.IsNullOrEmpty(PlayerState.CharacterName) || PlayerState.HomeWorld.ValueNullable?.Name == null) return null;
 
 
             CurrentCharacter = this.Configuration.Characters
-                                .FirstOrDefault(x => x.Name == this.ClientState.LocalPlayer?.Name.TextValue);
+                                .FirstOrDefault(x => x.Name == PlayerState.CharacterName);
 
 
             if (CurrentCharacter != null)
@@ -117,8 +122,8 @@ namespace FFXIVMoneyTracker
 
             var gil = Inventory.GetGil();
             CurrentCharacter = new CharacterModel
-                (name: ClientState.LocalPlayer!.Name.TextValue,
-                world: ClientState.LocalPlayer!.HomeWorld.Value.Name.ExtractText(),
+                (name: PlayerState.CharacterName,
+                world: PlayerState.HomeWorld.Value.Name.ExtractText(),
                 currentAmount: gil);
 
             CurrentCharacter.AddTransaction(
@@ -135,9 +140,9 @@ namespace FFXIVMoneyTracker
             return CurrentCharacter;
         }
 
-        private void Chat_OnChatMessage(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
+        private void Chat_OnChatMessage(IHandleableChatMessage message)
         {
-            if (type != XivChatType.SystemMessage) return;
+            if (message.LogKind != XivChatType.SystemMessage) return;
             if (LastUpdate.AddSeconds(5) > DateTime.Now) return;
             LastUpdate = DateTime.Now;
             UpdateGil();
