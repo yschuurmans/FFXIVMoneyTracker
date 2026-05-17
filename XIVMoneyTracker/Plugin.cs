@@ -76,10 +76,6 @@ namespace FFXIVMoneyTracker
             clientState.Logout += Player_Logout;
 
 
-#if DEBUG
-            CurrentCharacter = this.Configuration.Characters
-                                .FirstOrDefault();
-#endif
         }
 
 
@@ -109,9 +105,17 @@ namespace FFXIVMoneyTracker
             if (!PlayerState.IsLoaded) return null;
             if (string.IsNullOrEmpty(PlayerState.CharacterName) || PlayerState.HomeWorld.ValueNullable?.Name == null) return null;
 
+            var currentWorld = PlayerState.HomeWorld.Value.Name.ExtractText();
+
 
             CurrentCharacter = this.Configuration.Characters
-                                .FirstOrDefault(x => x.Name == PlayerState.CharacterName);
+                                .FirstOrDefault(x => x.Name == PlayerState.CharacterName && x.World == currentWorld);
+
+            if (CurrentCharacter == null)
+            {
+                CurrentCharacter = this.Configuration.Characters
+                                    .FirstOrDefault(x => x.Name == PlayerState.CharacterName);
+            }
 
 
             if (CurrentCharacter != null)
@@ -188,7 +192,7 @@ namespace FFXIVMoneyTracker
         {
             // in response to the slash command, just display our main ui
             GetCurrentCharacter()?.LoadAllTransactions();
-            DrawMainUI();
+            this.PluginUI.MoneyGraphWindow.Visible = true;
         }
 
         private void DrawUI()

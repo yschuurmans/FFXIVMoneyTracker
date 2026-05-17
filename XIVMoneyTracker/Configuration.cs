@@ -11,6 +11,7 @@ namespace FFXIVMoneyTracker
     {
         public int Version { get; set; } = 0;
         public int ClusterSizeInHours { get; set; } = 24;
+        public int GraphDaysShown { get; set; } = 90;
 
         public List<CharacterModel> Characters { get; set; } = new List<CharacterModel>();
         public bool InverseSort { get; internal set; } = true;
