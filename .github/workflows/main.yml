@@ -56,6 +56,14 @@ jobs:
       with:
         name: PluginRepoZip
         path: plugins/${{ env.INTERNAL_NAME }}
+    - name: Flatten plugin output
+      run: |
+        nested_dir="plugins/${{ env.INTERNAL_NAME }}/${{ env.INTERNAL_NAME }}"
+        if [ -d "$nested_dir" ]; then
+          shopt -s dotglob
+          mv "$nested_dir"/* "plugins/${{ env.INTERNAL_NAME }}/"
+          rmdir "$nested_dir"
+        fi
     - uses: EndBug/add-and-commit@v7
       with:
         add: --all
